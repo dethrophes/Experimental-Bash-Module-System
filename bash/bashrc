@@ -1,0 +1,239 @@
+function have {
+  unset -v have
+  PATH=${PATH}:/sbin:/usr/sbin:/usr/local/sbin type ${1} &>/dev/null &&
+  have="yes"
+}
+
+
+if have ssh ; then
+	SSH_ENV="${HOME}/.ssh/environment"
+
+	function start_agent {
+			echo "Initialising new SSH agent..."
+			/usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+			echo succeeded
+			chmod 600 "${SSH_ENV}"
+			. "${SSH_ENV}" > /dev/null
+			/usr/bin/ssh-add;
+	} && 
+	if [ -z "${SSH_AGENT_PID:-}" ]; then
+		if [ -f "${SSH_ENV:-}" ]; then
+			. "${SSH_ENV}" > /dev/null
+			#ps ${SSH_AGENT_PID} doesn't work under cywgin
+			ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+					start_agent;
+			}
+		else
+				start_agent;
+		fi 
+	fi
+fi
+
+
+
+for EDITOR in "gvim --nofork" vim vi; do
+	have ${EDITOR}  && export EDITOR && break
+done
+
+export CVS_RSH="ssh"
+export PERLLIB=${HOME}/scripts/perl
+{
+	function AddToPath {
+		if [ -z "$(echo ${PATH} | grep "${1}:")" ]; then
+			if [ -d "${1}" ]; then
+				PATH=${1}:${PATH}
+			elif [ -f "${1}" ]; then
+				echo ERROR: Can\'t insert file in PATH \"${1}\"
+			else
+				echo ERROR: Invalid Path \"${1}\"
+			fi
+		fi
+	}
+	AddToPath "${PERLLIB}"
+	AddToPath "${HOME}/scripts/bash"
+	AddToPath "${HOME}/bin"
+}
+
+export PATH
+
+complete -d -W "$(obnc.sh --SupportedOptions)" obnc.sh obnc
+complete -df -W "$(open_real_path.sh --SupportedOptions)" open_real_path.sh open_real_path
+complete -d -W "$(oc.sh --SupportedOptions)" oc.sh oc
+complete -df -W "$(move.sh --SupportedOptions)" move.sh move
+complete -W "$(CreateMFilm.sh --SupportedOptions)" CreateMFilm.sh CreateMFilm
+complete -W "$(CreateMasterList.sh --SupportedOptions)" CreateMasterList.sh CreateMasterList
+complete -df -W "$(CreateStorageFolder.sh --SupportedOptions)" CreateStorageFolder.sh CreateStorageFolder
+complete -d -W "$(brename.sh --SupportedOptions)" brename.sh brename
+complete -df -W "$(SortFiles.sh --SupportedOptions)" SortFiles.sh SortFiles
+complete -df -W "$(EditTxtFile.sh --SupportedOptions)" EditTxtFile.sh EditTxtFile
+complete -df -W "$(PutInDir.sh --SupportedOptions)" PutInDir.sh PutInDir
+complete -df -W "$(FixSymLinks.sh --SupportedOptions)" FixSymLinks.sh FixSymLinks
+complete -df -W "$(CLink.sh --SupportedOptions)" CLink.sh CLink
+complete -df -W "$(FixSymLinks.sh --SupportedOptions)" FixSymLinks.sh FixSymLinks
+complete -df -W "$(uTorrentFuncs.sh --SupportedOptions)" uTorrentFuncs.sh
+
+have iso_mount.sh &&  function _iso_mount_acomplete {
+	local cur prev
+	local Copt CCnt
+	COMPREPLY=()
+	_get_comp_words_by_ref cur prev
+	CCnt=0
+	for Copt in $(compgen -o default "${cur}"); do
+		if [ -f  "${Copt}" ] && [ ! -z "$(echo "${Copt}" | grep -iP "\.iso$")" ]; then
+			COMPREPLY[${CCnt}]=${Copt}
+			((CCnt++))
+		fi
+	done
+	return 0
+} && complete -d -F _iso_mount_acomplete  iso_mount.sh iso_mount iso_unmount.sh iso_unmount
+have rdesktop && have mstsc.sh && function _mstsc_known_hosts_acomplete {
+	local cur prev
+
+		_get_comp_words_by_ref cur prev
+
+    case ${prev} in
+        -k|-a|-x|-r)
+						_rdesktop 
+            return 0
+            ;;
+    esac
+
+    if [[ "${cur}" == -* ]]; then
+				_rdesktop 
+    else
+			_known_hosts_real "${cur}"
+			COMPREPLY=( "${COMPREPLY[@]}" $(compgen -W "$(echo $(sed 's/\s*\(.*\):\(.\+\):.*$/\1 \2/;s/\n/ /g' ~/.mstscpass))" ${cur} ) )
+		fi
+		return 0
+} && complete -F _mstsc_known_hosts_acomplete mstsc.sh mstsc
+complete -c -X "!*.sh" sedit.sh sedit
+function ledit_files {
+	local cur prev
+
+		_get_comp_words_by_ref cur prev
+
+		COMPREPLY=( "${COMPREPLY[@]}" $(compgen -W "$(echo $(ls ~/scripts/Logs | grep .log$))" ${cur} ) )
+} && function ledit {
+	gvim -R ~/scripts/Logs/${1} +
+} && complete -F ledit_files ledit
+
+. ~/scripts/bash/aliases.sh
+
+function set_terminal_title()
+{
+	echo -ne "\e]0;${1}\007"
+}
+function elite
+{
+
+	local ELEVEL=$?
+	local GRAY="\[\e[1;30m\]"
+	local RED="\[\e[1;31m\]"
+	local LIGHT_GRAY="\[\e[0;37m\]"
+	local CYAN="\[\e[0;36m\]"
+	local LIGHT_CYAN="\[\e[1;36m\]"
+	local NO_COLOUR="\[\e[0m\]"
+	local LBracket="${LIGHT_CYAN}("
+	local RBracket="${LIGHT_CYAN})"
+	local GHash="${GRAY}#"
+	local GAt="${GRAY}@"
+	local GBreak="${GRAY}/"
+	local GColon="${GRAY}:"
+	local GDash="${GRAY}-"
+	local BDash="${CYAN}-"
+	local TEXT="${CYAN}"
+	local temp="$(tty)"
+	local GRAD1="${temp:5}"
+	local kernel="$(uname -r)"
+
+	case ${TERM} in
+			xterm*|rxvt*)
+				local TITLEBAR="\[\e]0;\u@\h - \v - ${GRAD1} - $$/\j - (\w)\007\]"
+					;;
+			*)
+				local TITLEBAR=""
+					;;
+	esac
+	PROMPT_COMMAND='ELEVEL=$?'
+	EXIT_CODE='$(if [[ ${ELEVEL} -eq 0 ]]; then echo -ne "${ELEVEL}"; else echo -ne "\[\e[1;31m\]${ELEVEL}"; fi)'
+
+
+	PS1="${GHash} ${TITLEBAR}\
+${GDash}${BDash}${LBracket}\
+${TEXT}\u${GAt}${TEXT}\h${GBreak}${TEXT}${kernel}${GBreak}${TEXT}\v\
+${RBracket}${BDash}${LBracket}\
+${TEXT}\#${GBreak}${CYAN}${GRAD1}${GBreak}${TEXT}$$${GBreak}${TEXT}\j${GBreak}${NO_COLOUR}${EXIT_CODE}\
+${RBracket}${BDash}${LBracket}\
+${TEXT}\$(date +%H%M)${GBreak}${TEXT}\$(date +%d-%b-%y)\
+${RBracket}${BDash}${LBracket}\
+${TEXT}\$${GColon}${TEXT}\w\
+${RBracket}${BDash}\
+${GDash}${LIGHT_GRAY}\n" 
+	PS2="${LIGHT_CYAN}-${BDash}${GDash}${NO_COLOUR} "
+}
+
+elite
+
+# Wrap sudo to handle aliases and functions
+Sudo ()
+{
+	local c o t parse
+
+	# Parse sudo args
+	OPTIND=1
+	while getopts xVhlLvkKsHPSb:p:c:a:u: t; do
+		if [ "$t" = x ]; then
+			parse=true
+		else
+			o="$o -$t"
+			[ "$OPTARG" ] && o="$o $OPTARG"
+		fi
+	done
+	shift $(( $OPTIND - 1 ))
+
+	# If no arguments are left, it's a simple call to sudo
+	if [ $# -ge 1 ]; then
+		c="$1";
+		shift;
+		case $(type -t "$c") in
+			"")
+				echo No such command "$c"
+				return 127
+				;;
+			alias)
+				c="$(type "$c"|sed "s/^.* to \`//;s/.$//")"
+				;;
+			function)
+				c=$(type "$c"|sed 1d)";\"$c\""
+				;;
+			*)
+				c="\"$c\""
+				;;
+		esac
+		if [ -n "$parse" ]; then
+			# Quote the rest once, so it gets processed by bash.
+			# Done this way so variables can get expanded.
+			while [ -n "$1" ]; do
+				c="$c \"$1\""
+				shift
+			done
+		else
+			# Otherwise, quote the arguments. The echo gets an extra
+			# space to prevent echo from parsing arguments like -n
+			# Note the lovely interactions between " and ' ;-)
+			while [ -n "$1" ]; do
+				c="$c '$(echo " $1"|sed -e "s/^ //" -e "s/'/'\"'\"'/")'"
+				shift
+			done
+		fi
+		# Run the command with verbose options
+		#echo Executing sudo $o -- bash -x -v -c "$c" >&2
+		command sudo $o bash -xvc "$c"
+	else
+		#echo sudo $o >&2
+		command sudo $o
+	fi
+} 
+
+eval `~/scripts/bash/SetEnvJK.sh`
+

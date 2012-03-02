@@ -1,0 +1,16 @@
+#!/bin/bash
+while read Line ; do 
+	if echo "$Line" | grep -P --regexp="^\s*\d+\s*$" >/dev/null
+		then
+		echo "$Line"
+	elif echo "$Line" | grep -P --regexp="^\s+$"  >/dev/null
+		then
+		echo "$Line"
+	elif echo "$Line" | grep -P --regexp="-->"  >/dev/null
+		then
+		echo "$Line"
+	else
+	  #echo "$Line"
+	  echo "$Line" | ~/src/py-translate/translate -s pt -d en  
+	fi
+done < "$1"

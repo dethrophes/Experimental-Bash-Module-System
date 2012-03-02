@@ -1,0 +1,69 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ACTION	vtparse.h	12;"	d
+ACTION_NAMES	vtparse_table.c	/^char *ACTION_NAMES[] = {$/;"	v
+ENTRY_ACTIONS	vtparse_table.c	/^vtparse_action_t ENTRY_ACTIONS[] = {$/;"	v
+EXIT_ACTIONS	vtparse_table.c	/^vtparse_action_t EXIT_ACTIONS[] = {$/;"	v
+MAX_INTERMEDIATE_CHARS	vtparse.h	11;"	d
+RUBY_GENERATION_FILES	Makefile	/^RUBY_GENERATION_FILES = vtparse_gen_c_tables.rb vtparse_tables.rb$/;"	m
+STATE	vtparse.h	13;"	d
+STATE_NAMES	vtparse_table.c	/^char *STATE_NAMES[] = {$/;"	v
+STATE_TABLE	vtparse_table.c	/^state_change_t STATE_TABLE[15][256] = {$/;"	v
+StateTransition	vtparse_tables.rb	/^class StateTransition$/;"	c
+String	vtparse_gen_c_tables.rb	/^class String$/;"	c
+VTPARSE_ACTION_CLEAR	vtparse_table.h	/^   VTPARSE_ACTION_CLEAR = 1,$/;"	e	enum:__anon2
+VTPARSE_ACTION_COLLECT	vtparse_table.h	/^   VTPARSE_ACTION_COLLECT = 2,$/;"	e	enum:__anon2
+VTPARSE_ACTION_CSI_DISPATCH	vtparse_table.h	/^   VTPARSE_ACTION_CSI_DISPATCH = 3,$/;"	e	enum:__anon2
+VTPARSE_ACTION_ESC_DISPATCH	vtparse_table.h	/^   VTPARSE_ACTION_ESC_DISPATCH = 4,$/;"	e	enum:__anon2
+VTPARSE_ACTION_EXECUTE	vtparse_table.h	/^   VTPARSE_ACTION_EXECUTE = 5,$/;"	e	enum:__anon2
+VTPARSE_ACTION_HOOK	vtparse_table.h	/^   VTPARSE_ACTION_HOOK = 6,$/;"	e	enum:__anon2
+VTPARSE_ACTION_IGNORE	vtparse_table.h	/^   VTPARSE_ACTION_IGNORE = 7,$/;"	e	enum:__anon2
+VTPARSE_ACTION_OSC_END	vtparse_table.h	/^   VTPARSE_ACTION_OSC_END = 8,$/;"	e	enum:__anon2
+VTPARSE_ACTION_OSC_PUT	vtparse_table.h	/^   VTPARSE_ACTION_OSC_PUT = 9,$/;"	e	enum:__anon2
+VTPARSE_ACTION_OSC_START	vtparse_table.h	/^   VTPARSE_ACTION_OSC_START = 10,$/;"	e	enum:__anon2
+VTPARSE_ACTION_PARAM	vtparse_table.h	/^   VTPARSE_ACTION_PARAM = 11,$/;"	e	enum:__anon2
+VTPARSE_ACTION_PRINT	vtparse_table.h	/^   VTPARSE_ACTION_PRINT = 12,$/;"	e	enum:__anon2
+VTPARSE_ACTION_PUT	vtparse_table.h	/^   VTPARSE_ACTION_PUT = 13,$/;"	e	enum:__anon2
+VTPARSE_ACTION_UNHOOK	vtparse_table.h	/^   VTPARSE_ACTION_UNHOOK = 14,$/;"	e	enum:__anon2
+VTPARSE_STATE_ANYWHERE	vtparse_table.h	/^   VTPARSE_STATE_ANYWHERE = 0,$/;"	e	enum:__anon1
+VTPARSE_STATE_CSI_ENTRY	vtparse_table.h	/^   VTPARSE_STATE_CSI_ENTRY = 1,$/;"	e	enum:__anon1
+VTPARSE_STATE_CSI_IGNORE	vtparse_table.h	/^   VTPARSE_STATE_CSI_IGNORE = 2,$/;"	e	enum:__anon1
+VTPARSE_STATE_CSI_INTERMEDIATE	vtparse_table.h	/^   VTPARSE_STATE_CSI_INTERMEDIATE = 3,$/;"	e	enum:__anon1
+VTPARSE_STATE_CSI_PARAM	vtparse_table.h	/^   VTPARSE_STATE_CSI_PARAM = 4,$/;"	e	enum:__anon1
+VTPARSE_STATE_DCS_ENTRY	vtparse_table.h	/^   VTPARSE_STATE_DCS_ENTRY = 5,$/;"	e	enum:__anon1
+VTPARSE_STATE_DCS_IGNORE	vtparse_table.h	/^   VTPARSE_STATE_DCS_IGNORE = 6,$/;"	e	enum:__anon1
+VTPARSE_STATE_DCS_INTERMEDIATE	vtparse_table.h	/^   VTPARSE_STATE_DCS_INTERMEDIATE = 7,$/;"	e	enum:__anon1
+VTPARSE_STATE_DCS_PARAM	vtparse_table.h	/^   VTPARSE_STATE_DCS_PARAM = 8,$/;"	e	enum:__anon1
+VTPARSE_STATE_DCS_PASSTHROUGH	vtparse_table.h	/^   VTPARSE_STATE_DCS_PASSTHROUGH = 9,$/;"	e	enum:__anon1
+VTPARSE_STATE_ESCAPE	vtparse_table.h	/^   VTPARSE_STATE_ESCAPE = 10,$/;"	e	enum:__anon1
+VTPARSE_STATE_ESCAPE_INTERMEDIATE	vtparse_table.h	/^   VTPARSE_STATE_ESCAPE_INTERMEDIATE = 11,$/;"	e	enum:__anon1
+VTPARSE_STATE_GROUND	vtparse_table.h	/^   VTPARSE_STATE_GROUND = 12,$/;"	e	enum:__anon1
+VTPARSE_STATE_OSC_STRING	vtparse_table.h	/^   VTPARSE_STATE_OSC_STRING = 13,$/;"	e	enum:__anon1
+VTPARSE_STATE_SOS_PM_APC_STRING	vtparse_table.h	/^   VTPARSE_STATE_SOS_PM_APC_STRING = 14,$/;"	e	enum:__anon1
+cb	vtparse.h	/^    vtparse_callback_t cb;$/;"	m	struct:vtparse
+do_action	vtparse.c	/^static void do_action(vtparse_t *parser, vtparse_action_t action, char ch)$/;"	f	file:
+do_state_change	vtparse.c	/^static void do_state_change(vtparse_t *parser, state_change_t change, char ch)$/;"	f	file:
+expand_ranges	vtparse_tables.rb	/^def expand_ranges(hash_with_ranges_as_keys)$/;"	f
+ignore_flagged	vtparse.h	/^    char               ignore_flagged;$/;"	m	struct:vtparse
+initialize	vtparse_tables.rb	/^    def initialize(to_state)$/;"	f	class:StateTransition
+intermediate_chars	vtparse.h	/^    unsigned char      intermediate_chars[MAX_INTERMEDIATE_CHARS+1];$/;"	m	struct:vtparse
+main	vtparse_test.c	/^int main()$/;"	f
+num_params	vtparse.h	/^    int                num_params;$/;"	m	struct:vtparse
+pad	vtparse_gen_c_tables.rb	/^    def pad(len)$/;"	f	class:String
+params	vtparse.h	/^    int                params[16];$/;"	m	struct:vtparse
+parser_callback	vtparse_test.c	/^void parser_callback(vtparse_t *parser, vtparse_action_t action, unsigned char ch)$/;"	f
+state	vtparse.h	/^    vtparse_state_t    state;$/;"	m	struct:vtparse
+state_change_t	vtparse_table.h	/^typedef unsigned char state_change_t;$/;"	t
+transition_to	vtparse_tables.rb	/^def transition_to(state)$/;"	f
+user_data	vtparse.h	/^    void*              user_data;$/;"	m	struct:vtparse
+vtparse	vtparse.c	/^void vtparse(vtparse_t *parser, unsigned char *data, int len)$/;"	f
+vtparse	vtparse.h	/^typedef struct vtparse {$/;"	s
+vtparse_action_t	vtparse_table.h	/^} vtparse_action_t;$/;"	t	typeref:enum:__anon2
+vtparse_callback_t	vtparse.h	/^typedef void (*vtparse_callback_t)(struct vtparse*, vtparse_action_t, unsigned char);$/;"	t
+vtparse_init	vtparse.c	/^void vtparse_init(vtparse_t *parser, vtparse_callback_t cb)$/;"	f
+vtparse_state_t	vtparse_table.h	/^} vtparse_state_t;$/;"	t	typeref:enum:__anon1
+vtparse_t	vtparse.h	/^} vtparse_t;$/;"	t	typeref:struct:vtparse
