@@ -5,11 +5,9 @@
 [[ "${DEBUG:-0}" != "1" ]] || set -o xtrace
 #<KHeader>
 #+=========================================================================
-#I               JK Script Tools
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/ReadKeyFuncs.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2012, dethrophes@web.de
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
 #I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
@@ -19,20 +17,17 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: 
+#I              File Name            : ReadKeyFuncs.sh
 #I
-#+------------------------------------------------------------------------=
+#+-------------------------------------------------------------------------
 #I
 #I  File Name            : ReadKeyFuncs.sh
-#I  File Location        : scripts/bash
-#I  Last committed       : $Revision: 53 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-02-17 14:29:00 +0100 (Fri, 17 Feb 2012) $
-#I  ID                   : $Id: ReadKeyFuncs.sh 53 2012-02-17 13:29:00Z dethrophes $
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -138,8 +133,8 @@ if [ -z "${__ReadKeyFuncs_sh__:-}" ]; then
 		MouseBtn="${MouseMetaButtons[$(( ${MouseBtn} & 0x1C))]-}${MouseButtons[$(( ${MouseBtn} & 0xe3))]}"
 		eval ${1}='"${MouseBtn}"'
 	}
-	declare -g mouse_on="$( vt100_DECSET "${mouse_type[1]}" )"
-	declare -g mouse_off="$(vt100_DECRST "${mouse_type[1]}" )"
+	mouse_on="$( vt100_DECSET "${mouse_type[1]}" )"
+	mouse_off="$(vt100_DECRST "${mouse_type[1]}" )"
 
 	DECLRP_Pevent=( 
 			[0]="LocatorUnavailable" 
@@ -163,6 +158,7 @@ if [ -z "${__ReadKeyFuncs_sh__:-}" ]; then
 		unset UInput[@]
 		local escapeSequence 
 		local REPLY 
+		UInput[0]=""
 
 		echo -n "${mouse_on}"
 		if IFS='' read  -srN1 ${1:-} escapeSequence; then
@@ -362,12 +358,12 @@ if [ -z "${__ReadKeyFuncs_sh__:-}" ]; then
 	#push_element RequiredFreeBsdPackages	<Package Name> ...
 	#push_element RequiredSusePackages		<Package Name> ...
 
-	ReadKeyFuncsRevision=$(CleanRevision '$Revision: 53 $')
+	ReadKeyFuncsRevision=$(CleanRevision '$Revision: 64 $')
 	ReadKeyFuncsDescription=''
 	push_element	ScriptsLoaded "ReadKeyFuncs.sh;${ReadKeyFuncsRevision};${ReadKeyFuncsDescription}"
 fi
-if [ -n "${__GenFuncs_sh_Loaded_-}" -a "${SBaseName2}" = "template.sh" ]; then 
-	ScriptRevision="${templateRevision}"
+if [ -n "${__GenFuncs_sh_Loaded_-}" -a "${SBaseName2}" = "ReadKeyFuncs.sh" ]; then 
+	ScriptRevision="${ReadKeyFuncsRevision}"
 
 	#########################################################################
 	# Procedures

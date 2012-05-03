@@ -5,12 +5,10 @@
 [[ "${DEBUG:-0}" != "1" ]] || set -o xtrace
 #<KHeader>
 #+=========================================================================
-#I               EApiDK Embedded Application Development Kit
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/SortFuncs.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2009, Kontron Embedded Modules GmbH
-#I      Author: John Kearney,                  John.Kearney@kontron.com
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
+#I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
 #I              materials are licensed and made available under the 
@@ -19,20 +17,17 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: 
+#I              File Name            : SortFuncs.sh
 #I
-#+------------------------------------------------------------------------=
+#+-------------------------------------------------------------------------
 #I
 #I  File Name            : SortFuncs.sh
-#I  File Location        : apps\EApiValidateAPI\WINNT
-#I  Last committed       : $Revision: 55 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-02-26 11:37:11 +0100 (Sun, 26 Feb 2012) $
-#I  ID                   : $Id: SortFuncs.sh 55 2012-02-26 10:37:11Z dethrophes $
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -65,10 +60,10 @@ if [ -z "${__SortFuncs_sh__:-}" ]; then
 	#########################################################################
 
 	
-	declare -gr SpaceChars="[[:space:](),._-]"
-	declare -gr SpaceChars1="[[:space:],._-]"
-	declare -gr SpaceCharsL="[([[:space:],._-]"
-	declare -gr SpaceCharsR="[])[:space:],._-]"
+	readonly SpaceChars="[[:space:](),._-]"
+	readonly SpaceChars1="[[:space:],._-]"
+	readonly SpaceCharsL="[([[:space:],._-]"
+	readonly SpaceCharsR="[])[:space:],._-]"
 
 	declare -gar MatchNumbers=(
 			"Zero|zero|null|Zero|ling"
@@ -84,25 +79,14 @@ if [ -z "${__SortFuncs_sh__:-}" ]; then
 			"Ten|ten|X|zehn|Dix|shr"
 	)
 
-	IFS='|' eval 'declare -gr NumWords="${MatchNumbers[*]}"'
+	IFS='|' eval 'readonly NumWords="${MatchNumbers[*]}"'
 
-	declare -gr MatchYear="19[6-9][0-9]|20[0-8][0-9]"
-	declare -gr SeasonNames="Season|Series|Saison|Serie"
-	declare -gr EpisodeNames="Part|Ep|Episode|teil"
-	declare -gr Match_xofx="[0-9]+${SpaceChars}*of${SpaceChars}*[0-9]"
+	readonly MatchYear="19[6-9][0-9]|20[0-8][0-9]"
+	readonly SeasonNames="Season|Series|Saison|Serie"
+	readonly EpisodeNames="Part|Ep|Episode|teil"
+	readonly Match_xofx="[0-9]+${SpaceChars}*of${SpaceChars}*[0-9]"
 
 
-	Spacer=$'\v'
-	function EncodeArgs {
-		IFS=${Spacer} eval 'echo "${*}"'
-	}
-	function DecodedArgs {
-		#echo \""2=${2}"\"
-		IFS=${Spacer} read -ra ${1} <<< "${2}"
-		#IFS=${Spacer} eval ${1}'=( .${2}. )'
-		#eval ${1}'[0]="${'${1}'[0]#.}"'
-		#eval ${1}'[${#'${1}'[@]}-1]="${'${1}'[${#'${1}'[@]}-1]]%.}"'
-	}
 	declare -ga EpisodeMatchPaters=(
 				# Name.2012.S01E01
 				# Name.2012.1x01
@@ -372,7 +356,7 @@ if [ -z "${__SortFuncs_sh__:-}" ]; then
 	#push_element RequiredFreeBsdPackages	<Package Name> ...
 	#push_element RequiredSusePackages		<Package Name> ...
 
-	SortFuncsRevision=$(CleanRevision '$Revision: 55 $')
+	SortFuncsRevision=$(CleanRevision '$Revision: 64 $')
 	SortFuncsDescription=''
 	push_element	ScriptsLoaded "SortFuncs.sh;${SortFuncsRevision};${SortFuncsDescription}"
 	if [ "${SBaseName2}" = "SortFuncs.sh" ]; then 

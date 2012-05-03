@@ -2,12 +2,10 @@
 #if [ "$DEBUG" != "1" ]; then stty -echo; fi
 #<KHeader>
 #+=========================================================================
-#I  Project Name: Kontron Secure Bios
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/uTorrent.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2009, Kontron Embedded Modules GmbH
-#I      Author: John Kearney,                  John.Kearney@kontron.com
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
+#I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
 #I              materials are licensed and made available under the 
@@ -16,20 +14,16 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: Auto Created for SOURCES
 #I
 #+-------------------------------------------------------------------------
 #I
-#I  File Name            : template.sh
-#I  File Location        : bash
-#I  Last committed       : $Revision: 51 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-01-17 13:33:18 +0100 (Tue, 17 Jan 2012) $
-#I  ID                   : $Id: uTorrent.sh 51 2012-01-17 12:33:18Z dethrophes $
+#I  File Name            : uTorrent.sh
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -52,14 +46,14 @@ SourceCoreFiles_ "ScriptWrappers.sh"
 #SourceFiles_ "${ScriptDir}/DiskFuncs.sh"
 
 if [ -z "${__uTorrent_SH__}" ]; then
-	declare -gr __uTorrent_SH__=1
+	readonly __uTorrent_SH__=1
 
 	#########################################################################
 	# PROCEDURES
 	#########################################################################
 
 	if [ "${SBaseName2}" = "uTorrent.sh" ]; then 
-		declare -gr ScriptRevision=$(CleanRevision '$Revision: 51 $')
+		readonly ScriptRevision=$(CleanRevision '$Revision: 64 $')
 
 		function InstallDependencies {
 			InstallPackages "${@}"  

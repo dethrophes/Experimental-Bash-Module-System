@@ -5,11 +5,9 @@
 [[ "${DEBUG:-0}" != "1" ]] || set -o xtrace
 #<KHeader>
 #+=========================================================================
-#I               JK Script Tools
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/vt100Funcs.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2012, dethrophes@web.de
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
 #I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
@@ -19,20 +17,17 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: 
+#I              File Name            : vt100Funcs.sh
 #I
-#+------------------------------------------------------------------------=
+#+-------------------------------------------------------------------------
 #I
 #I  File Name            : vt100Funcs.sh
-#I  File Location        : scripts/bash
-#I  Last committed       : $Revision: 53 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-02-17 14:29:00 +0100 (Fri, 17 Feb 2012) $
-#I  ID                   : $Id: vt100Funcs.sh 53 2012-02-17 13:29:00Z dethrophes $
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -60,26 +55,26 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# Module Shared Procedures
 	#########################################################################
 
-	declare -gr MSI="${CSI}M"		# Mouse Sequence Introducer
+	readonly MSI="${CSI}M"		# Mouse Sequence Introducer
 
 	#	Controls beginning with ESC (other than those where ESC is part of a 7-bit equivalent to 8-bit C1 controls),
 	#	ordered by the final character(s).	
-	declare -gr vt100_S7CIT=$'\e F'		# 7-bit controls (S7C1T).
-	declare -gr vt100_S8CIT=$'\e G'		# 8-bit controls (S8C1T).
-	declare -gr vt100_SACL1=$'\e L'		# Set ANSI conformance level 1 (dpANS X3.134.1).
-	declare -gr vt100_SACL2=$'\e M'		# Set ANSI conformance level 2 (dpANS X3.134.1).
-	declare -gr vt100_SACL3=$'\e N'		# Set ANSI conformance level 3 (dpANS X3.134.1).
-	declare -gr vt100_DECDHL_th=$'\e#3'	# DEC double-height line, top half (DECDHL)
-	declare -gr vt100_DECDHL_bh=$'\e#4'	# DEC double-height line, bottom half (DECDHL)
-	declare -gr vt100_DECSWL=$'\e#5'	# DEC single-width line (DECSWL)
-	declare -gr vt100_DECDWL=$'\e#6'	# DEC double-width line (DECDWL)
-	declare -gr vt100_DECALN=$'\e#8'	# DEC Screen Alignment Test (DECALN)
-	declare -gr vt100_SDCS=$'\e%@'		#	Select default character set, ISO 8859-1 (ISO 2022)
-	declare -gr vt100_SUTF8=$'\e%G'		# Select UTF-8 character set (ISO 2022)
-	declare -gr vt100_DG0CS=$'\e(C'		# Designate G0 Character Set (ISO 2022)
-	declare -gr vt100_DG1CS=$'\e)C'		# Designate G1 Character Set (ISO 2022)
-	declare -gr vt100_DG2CS=$'\e*C'		# Designate G2 Character Set (ISO 2022)
-	declare -gr vt100_DG3CS=$'\e+C'		# Designate G3 Character Set (ISO 2022)
+	readonly vt100_S7CIT=$'\e F'		# 7-bit controls (S7C1T).
+	readonly vt100_S8CIT=$'\e G'		# 8-bit controls (S8C1T).
+	readonly vt100_SACL1=$'\e L'		# Set ANSI conformance level 1 (dpANS X3.134.1).
+	readonly vt100_SACL2=$'\e M'		# Set ANSI conformance level 2 (dpANS X3.134.1).
+	readonly vt100_SACL3=$'\e N'		# Set ANSI conformance level 3 (dpANS X3.134.1).
+	readonly vt100_DECDHL_th=$'\e#3'	# DEC double-height line, top half (DECDHL)
+	readonly vt100_DECDHL_bh=$'\e#4'	# DEC double-height line, bottom half (DECDHL)
+	readonly vt100_DECSWL=$'\e#5'	# DEC single-width line (DECSWL)
+	readonly vt100_DECDWL=$'\e#6'	# DEC double-width line (DECDWL)
+	readonly vt100_DECALN=$'\e#8'	# DEC Screen Alignment Test (DECALN)
+	readonly vt100_SDCS=$'\e%@'		#	Select default character set, ISO 8859-1 (ISO 2022)
+	readonly vt100_SUTF8=$'\e%G'		# Select UTF-8 character set (ISO 2022)
+	readonly vt100_DG0CS=$'\e(C'		# Designate G0 Character Set (ISO 2022)
+	readonly vt100_DG1CS=$'\e)C'		# Designate G1 Character Set (ISO 2022)
+	readonly vt100_DG2CS=$'\e*C'		# Designate G2 Character Set (ISO 2022)
+	readonly vt100_DG3CS=$'\e+C'		# Designate G3 Character Set (ISO 2022)
 																	# 		Final character C for designating character sets ( 0 , A and B apply to VT100 and
 																	# 		up, the remainder to VT220 and up):
 																	#			C = 0 ® DEC Special Character and Line Drawing Set
@@ -95,23 +90,23 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 																	# 		C = Z ® Spanish
 																	# 		C = H or 7 ® Swedish
 																	# 		C = = ® Swiss
-	declare -gr vt100_DECSC=$'\e7'	# Save Cursor (DECSC)
-	declare -gr vt100_DECRC=$'\e8'	# Restore Cursor (DECRC)
-	declare -gr vt100_DECPAM=$'\e='	# Application Keypad (DECPAM)
-	declare -gr vt100_DECPNM=$'\e>'	# Normal Keypad (DECPNM)
-	declare -gr vt100_CLLC=$'\eF'		# Cursor to lower left corner of screen (if enabled by the hpLowerleftBugCompat resource).
-	declare -gr vt100_RIS=$'\ec'		# Full Reset (RIS)
-	declare -gr vt100_MLOCK=$'\el'	# Memory Lock (per HP terminals). Locks memory above the cursor.
-	declare -gr vt100_MULOCK=$'\em'	# Memory Unlock (per HP terminals)
-	declare -gr vt100_LS2=$'\en'		# Invoke the G2 Character Set as GL (LS2).
-	declare -gr vt100_LS3=$'\eo'		# Invoke the G3 Character Set as GL (LS3).
-	declare -gr vt100_LS3R=$'\e|'		# Invoke the G3 Character Set as GR (LS3R).
-	declare -gr vt100_LS2R=$'\e}'		# Invoke the G2 Character Set as GR (LS2R).
-	declare -gr vt100_LS1R=$'\e˜'		# Invoke the G1 Character Set as GR (LS1R).
+	readonly vt100_DECSC=$'\e7'	# Save Cursor (DECSC)
+	readonly vt100_DECRC=$'\e8'	# Restore Cursor (DECRC)
+	readonly vt100_DECPAM=$'\e='	# Application Keypad (DECPAM)
+	readonly vt100_DECPNM=$'\e>'	# Normal Keypad (DECPNM)
+	readonly vt100_CLLC=$'\eF'		# Cursor to lower left corner of screen (if enabled by the hpLowerleftBugCompat resource).
+	readonly vt100_RIS=$'\ec'		# Full Reset (RIS)
+	readonly vt100_MLOCK=$'\el'	# Memory Lock (per HP terminals). Locks memory above the cursor.
+	readonly vt100_MULOCK=$'\em'	# Memory Unlock (per HP terminals)
+	readonly vt100_LS2=$'\en'		# Invoke the G2 Character Set as GL (LS2).
+	readonly vt100_LS3=$'\eo'		# Invoke the G3 Character Set as GL (LS3).
+	readonly vt100_LS3R=$'\e|'		# Invoke the G3 Character Set as GR (LS3R).
+	readonly vt100_LS2R=$'\e}'		# Invoke the G2 Character Set as GR (LS2R).
+	readonly vt100_LS1R=$'\e˜'		# Invoke the G1 Character Set as GR (LS1R).
 
 	# Application Program-Control functions
 	# APC Pt ST xterm implements no APC functions; Pt is ignored. Pt need not be printable characters.
-	function	vt100_APC {	echo -n "${APC}${1?Missing Pt}${ST}";	}
+	function	vt100_APC {	echo -n "${APC}${1:?Missing Pt}${ST}";	}
 
 	# Device-Control functions
 	# DCS Ps ; Ps | Pt ST User-Defined Keys (DECUDK). The first parameter:
@@ -124,7 +119,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 										’/’ from the hex-encoded key value. The key codes correspond to the DEC function-key
 	# 										codes (e.g., F6=17).
 	function vt100_DECUDK {
-	  IFS=';' eval 'echo -n "${DCS}${1?Missing Ps};${2?Missing Ps}|${*:3}${ST}"'
+	  IFS=';' eval 'echo -n "${DCS}${1:?Missing Ps};${2:?Missing Ps}|${*:3}${ST}"'
 	}
 	# DCS $ q Pt ST Request Status String (DECRQSS). The string following the "q" is one of the following:
 	# 							“ q ® DECSCA
@@ -135,7 +130,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 							corresponding CSI string, or DCS 0 $ r Pt ST for invalid requests.
 	function vt100_DECRQSS {
 		local Arg
-		case "${1?Missing Pt}" in
+		case "${1:?Missing Pt}" in
 			DECSCA)		Arg='“q' ;;
 			DECSCL)		Arg='“p' ;;
 			DECSTBM)	Arg='r' ;;
@@ -219,7 +214,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	function	vt100_CHA { echo -n "${CSI}${1-}G"; }
 
 	# CSI Ps ; Ps H Cursor Position [row;column] (default = [1,1]) (CUP)
-	function	vt100_CUP { echo -n "${CSI}${1?Missing row};${2?Missing column}H"; }
+	function	vt100_CUP { echo -n "${CSI}${1:?Missing row};${2:?Missing column}H"; }
 
 	# CSI Ps I Cursor Forward Tabulation Ps tab stops (default = 1) (CHT)
 	function	vt100_CHT { echo -n "${CSI}${1-}I"; }
@@ -267,7 +262,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# CSI Ps ; Ps ; Ps ; Ps ; Ps T
 	# 		Initiate highlight mouse tracking. Parameters are [func;startx;starty;firstrow;lastrow].
 	# 		See the section Mouse Tracking.
-	function	vt100_IHMT {	echo -n "${CSI}${1?Missing func};${2?Missing startx};${3?Missing starty};${4?Missing firstrow};${5?Missing lastrow}T";	}
+	function	vt100_IHMT {	echo -n "${CSI}${1:?Missing func};${2:?Missing startx};${3:?Missing starty};${4:?Missing firstrow};${5:?Missing lastrow}T";	}
 	# CSI Ps X Erase Ps Character(s) (default = 1) (ECH)
 	function	vt100_ECH {	echo -n "${CSI}${1-}X";	}
 
@@ -280,7 +275,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	}
 
 	# CSI Ps b Repeat the preceding graphic character Ps times (REP)
-	function	vt100_REP {	echo -n "${CSI}${1?Missing Ps}b";	}
+	function	vt100_REP {	echo -n "${CSI}${1:?Missing Ps}b";	}
 
 	# CSI Ps c Send Device Attributes (Primary DA)
 	# 		Ps = 0 or omitted ® request attributes from terminal. The response depends on the
@@ -321,7 +316,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	}
 	
 	# CSI Ps ; Ps f Horizontal and Vertical Position [row;column] (default = [1,1]) (HVP)
-	function	vt100_HVP {	echo -n "${CSI}${1?Missing Ps};${2?Missing Ps}@";	}
+	function	vt100_HVP {	echo -n "${CSI}${1:?Missing Ps};${2:?Missing Ps}@";	}
 
 	# CSI Ps g Tab Clear (TBC)
 	# 		Ps = 0 ® Clear Current Column (default)
@@ -548,7 +543,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		Ps = 5 ® Status Report CSI 0 n (‘‘OK’’)
 	# 		Ps = 6 ® Report Cursor Position (CPR) [row;column] as
 	#							CSI r ; c R
-	function	vt100_DSR {	echo -n "${CSI}${1?Missing Ps}n";	}
+	function	vt100_DSR {	echo -n "${CSI}${1:?Missing Ps}n";	}
 
 	#	CSI ? Ps n Device Status Report (DSR, DEC-specific)
 	# 		Ps = 6 ® Report Cursor Position (CPR) [row;column] as CSI ? r ; c R
@@ -564,7 +559,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		Ps = 5 3 ® Report Locator status as
 	#							CSI ? 5 3 n Locator available, if compiled-in, or
 	#							CSI ? 5 0 n No Locator, if not.
-	function	vt100_DSR {	echo -n "${CSI}?${1?Missing Ps}n";	}
+	function	vt100_DSR {	echo -n "${CSI}?${1:?Missing Ps}n";	}
 	
 	# CSI ! p Soft terminal reset (DECSTR)
 	function	vt100_DECSTR {	echo -n "${CSI}!p";	}
@@ -577,16 +572,16 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		Ps = 0 ® 8-bit controls
 	# 		Ps = 1 ® 7-bit controls (always set for VT100)
 	# 		Ps = 2 ® 8-bit controls
-	function	vt100_DECSCL {	echo -n "${CSI}${1?Missing Ps};${2?Missing Ps}“p";	}
+	function	vt100_DECSCL {	echo -n "${CSI}${1:?Missing Ps};${2:?Missing Ps}“p";	}
 
 	# CSI Ps “ q Select character protection attribute (DECSCA). Valid values for the parameter:
 	# 		Ps = 0 ® DECSED and DECSEL can erase (default)
 	# 		Ps = 1 ® DECSED and DECSEL cannot erase
 	# 		Ps = 2 ® DECSED and DECSEL can erase
-	function	vt100_DECSCA {	echo -n "${CSI}${1?Missing Ps}“p";	}
+	function	vt100_DECSCA {	echo -n "${CSI}${1:?Missing Ps}“p";	}
 
 	# CSI Ps ; Ps r Set Scrolling Region [top;bottom] (default = full size of window) (DECSTBM)
-	function	vt100_DECSTBM {	echo -n "${CSI}${1?Missing Ps};${2?Missing Ps}r";	}
+	function	vt100_DECSTBM {	echo -n "${CSI}${1:?Missing Ps};${2:?Missing Ps}r";	}
 
 	# CSI ? Pm r Restore DEC Private Mode Values. The value of Ps previously saved is restored. Ps values
 	# 		are the same as for DECSET.
@@ -597,7 +592,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		Change Attributes in Rectangular Area (DECCARA).
 	# 		Pt ; Pl ; Pb ; Pr denotes the rectangle.
 	# 		Ps denotes the SGR attributes to change: 0, 1, 4, 5, 7
-	function	vt100_DECCARA {	echo -n "${CSI}${1?Missing Pt};${2?Missing Pl};${3?Missing Pb};${4?Missing Pr};${5?Missing Ps}\$r";	}
+	function	vt100_DECCARA {	echo -n "${CSI}${1:?Missing Pt};${2:?Missing Pl};${3:?Missing Pb};${4:?Missing Pr};${5:?Missing Ps}\$r";	}
 	# CSI s Save cursor (ANSI.SYS)
 	function	vt100_SaveCursor {	echo -n "${CSI}s";	}
 	# CSI ? Pm s Save DEC Private Mode Values. Ps values are the same as for DECSET.
@@ -628,13 +623,13 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		Ps = 2 0 ® Report xterm window’s icon label as OSC L label ST
 	# 		Ps = 2 1 ® Report xterm window’s title as OSC l title ST
 	# 		Ps >= 2 4 ® Resize to Ps lines (DECSLPP)
-	function	vt100_windowManipulate {	echo -n "${CSI}${1?Missing Pt};${2?Missing Pl};${3?Missing Pb}t";	}
+	function	vt100_windowManipulate {	echo -n "${CSI}${1:?Missing Pt};${2:?Missing Pl};${3:?Missing Pb}t";	}
 
 	# CSI Pt ; Pl ; Pb ; Pr ; Ps $ t
 	# 		Reverse Attributes in Rectangular Area (DECRARA).
 	# 		Pt ; Pl ; Pb ; Pr denotes the rectangle.
 	# 		Ps denotes the attributes to reverse. 1, 4, 5, 7
-	function	vt100_DECRARA {	echo -n "${CSI}${1?Missing Pt};${2?Missing Pl};${3?Missing Pb};${4?Missing Pr};${5?Missing Ps}\$t";	}
+	function	vt100_DECRARA {	echo -n "${CSI}${1:?Missing Pt};${2:?Missing Pl};${3:?Missing Pb};${4:?Missing Pr};${5:?Missing Ps}\$t";	}
 	
 	# CSI u Save cursor (ANSI.SYS)
 	function	vt100_SaveCursor {	echo -n "${CSI}u";	}
@@ -646,7 +641,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		Pt ; Pl denotes the target location.
 	# 		Pp denotes the target page.
 	function	vt100_DECCRA {	
-			echo -n "${CSI}${1?Missing Pt};${2?Missing Pl};${3?Missing Pb};${4?Missing Pr};${5?Missing Ps};${6?Missing Pt};${7?Missing Pl};${8?Missing Pp}\$y";	}
+			echo -n "${CSI}${1:?Missing Pt};${2:?Missing Pl};${3:?Missing Pb};${4:?Missing Pr};${5:?Missing Ps};${6:?Missing Pt};${7:?Missing Pl};${8:?Missing Pp}\$y";	}
 
 	# CSI Pt ; Pl ; Pb ; Pr ’ w
 	# 		Enable Filter Rectangle (DECEFR)
@@ -656,7 +651,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		is disabled. Filter rectangles are always treated as "one-shot" events. Any parameters
 	# 		that are omitted default to the current locator position. If all parameters are omitted,
 	# 		any locator motion will be reported. DECELR always cancels any prevous rectangle definition.
-	function	vt100_DECEFR {	echo -n "${CSI}${1?Missing Pt};${2?Missing Pl};${3?Missing Pb};${4?Missing Pr}’w";	}
+	function	vt100_DECEFR {	echo -n "${CSI}${1:?Missing Pt};${2:?Missing Pl};${3:?Missing Pb};${4:?Missing Pr}’w";	}
 
 	# CSI Ps x Request Terminal Parameters (DECREQTPARM)
 	# 		if Ps is a "0" (default) or "1", and xterm is emulating VT100, the control sequence elicits
@@ -668,19 +663,19 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		1 2 8 ® receive 38.4k baud
 	# 		1 ® clock multiplier
 	# 		0 ® STP flags
-	function	vt100_DECREQTPARM {	echo -n "${CSI}${1?Missing Ps}x";	}
+	function	vt100_DECREQTPARM {	echo -n "${CSI}${1:?Missing Ps}x";	}
 
 	# CSI Ps x Select Attribute Change Extent (DECSACE).
 	# 		Ps = 0 ® from start to end position, wrapped
 	# 		Ps = 1 ® from start to end position, wrapped
 	# 		Ps = 2 ® rectangle (exact).
-	function	vt100_DECSACE {	echo -n "${CSI}${1?Missing Ps}x";	}
+	function	vt100_DECSACE {	echo -n "${CSI}${1:?Missing Ps}x";	}
 
 	# CSI Pc ; Pt ; Pl ; Pb ; Pr $ x
 	# 		Fill Rectangular Area (DECFRA).
 	# 		Pc is the character to use.
 	# 		Pt ; Pl ; Pb ; Pr denotes the rectangle.
-	function	vt100_DECSACE {	echo -n "${CSI}${1?Missing Pc};${2?Missing Pt};${3?Missing Pl};${4?Missing Pb};${5?Missing Pr}\$x";	}
+	function	vt100_DECSACE {	echo -n "${CSI}${1:?Missing Pc};${2:?Missing Pt};${3:?Missing Pl};${4:?Missing Pb};${5:?Missing Pr}\$x";	}
 
 	# CSI Ps ; Pu ’ z Enable Locator Reporting (DECELR)
 	# 		Valid values for the first parameter:
@@ -692,12 +687,12 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		Pu = 0 or omitted ® default to character cells
 	# 		Pu = 1 ® device physical pixels
 	# 		Pu = 2 ® character cells
-	function	vt100_DECELR {	echo -n "${CSI}${1?Missing Ps};${2?Missing Pu}’z";	}
+	function	vt100_DECELR {	echo -n "${CSI}${1:?Missing Ps};${2:?Missing Pu}’z";	}
 
 	# CSI Pt ; Pl ; Pb ; Pr $ z
 	# 		Erase Rectangular Area (DECERA).
 	# 		Pt ; Pl ; Pb ; Pr denotes the rectangle.
-	function	vt100_DECERA {	echo -n "${CSI}${1?Missing Pt};${2?Missing Pl};${3?Missing Pb};${4?Missing Pr}\$z";	}
+	function	vt100_DECERA {	echo -n "${CSI}${1:?Missing Pt};${2:?Missing Pl};${3:?Missing Pb};${4:?Missing Pr}\$z";	}
 
 	# CSI Pm ’ { Select Locator Events (DECSLE)
 	# 		Valid values for the first (and any additional parameters) are:
@@ -714,7 +709,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# CSI Pt ; Pl ; Pb ; Pr $ {
 	# 		Selective Erase Rectangular Area (DECSERA).
 	# 		Pt ; Pl ; Pb ; Pr denotes the rectangle.
-	function	vt100_DECSERA {	echo -n "${CSI}${1?Missing Pt};${2?Missing Pl};${3?Missing Pb};${4?Missing Pr}\$";	}
+	function	vt100_DECSERA {	echo -n "${CSI}${1:?Missing Pt};${2:?Missing Pl};${3:?Missing Pb};${4:?Missing Pr}\$";	}
 
 	# CSI Ps ’ | Request Locator Position (DECRQLP)
 	# 		Valid values for the parameter are:
@@ -746,7 +741,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		‘‘row’’ and ‘‘column’’ parameters are the coordinates of the locator position in the xterm
 	# 		window, encoded as ASCII decimal.
 	# 		The ‘‘page’’ parameter is not used by xterm, and will be omitted.
-	function	vt100_DECRQLP {	echo -n "${CSI}${1?Missing Ps}’|";	}
+	function	vt100_DECRQLP {	echo -n "${CSI}${1:?Missing Ps}’|";	}
 
 	#	Operating System Controls
 	# OSC Ps ; Pt ST
@@ -805,11 +800,11 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	# 		applications.
 	# 		If the second parameter is a ? , xterm replies to the host with the selection data encoded
 	# 		using the same protocol.
-	function	vt100_OscSetTextParamaters1 {	echo -n "${OSC}${1?Missing Ps};${2?Missing Pt}${ST}";	}
-	function	vt100_OscSetTextParamaters2 {	echo -n "${OSC}${1?Missing Ps};${2?Missing Pt}\b";	}
+	function	vt100_OscSetTextParamaters1 {	echo -n "${OSC}${1:?Missing Ps};${2:?Missing Pt}${ST}";	}
+	function	vt100_OscSetTextParamaters2 {	echo -n "${OSC}${1:?Missing Ps};${2:?Missing Pt}\b";	}
 	#	Privacy Message
 	#		PM Pt ST xterm implements no PM functions; Pt is ignored. Pt need not be printable characters.
-	function	vt100_PM {	echo -n "${PM}${1?Missing Pt}${ST}";	}
+	function	vt100_PM {	echo -n "${PM}${1:?Missing Pt}${ST}";	}
 
 
 	
@@ -857,7 +852,7 @@ if [ -z "${__vt100Funcs_sh__:-}" ]; then
 	#push_element RequiredFreeBsdPackages	<Package Name> ...
 	#push_element RequiredSusePackages		<Package Name> ...
 
-	vt100FuncsRevision=$(CleanRevision '$Revision: 53 $')
+	vt100FuncsRevision=$(CleanRevision '$Revision: 64 $')
 	vt100FuncsDescription=''
 	push_element	ScriptsLoaded "vt100Funcs.sh;${vt100FuncsRevision};${vt100FuncsDescription}"
 fi

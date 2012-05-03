@@ -5,12 +5,10 @@
 [[ "${DEBUG:-0}" != "1" ]] || set -o xtrace
 #<KHeader>
 #+=========================================================================
-#I  Project Name: Kontron Secure Bios
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/ArrayFuncs.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2009, Kontron Embedded Modules GmbH
-#I      Author: John Kearney,                  John.Kearney@kontron.com
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
+#I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
 #I              materials are licensed and made available under the 
@@ -19,20 +17,17 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: 
+#I              File Name            : ArrayFuncs.sh
 #I
-#+------------------------------------------------------------------------=
+#+-------------------------------------------------------------------------
 #I
 #I  File Name            : ArrayFuncs.sh
-#I  File Location        : apps\EApiValidateAPI\WINNT
-#I  Last committed       : $Revision: 53 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-02-17 14:29:00 +0100 (Fri, 17 Feb 2012) $
-#I  ID                   : $Id: ArrayFuncs.sh 53 2012-02-17 13:29:00Z dethrophes $
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -77,14 +72,20 @@ if [ -z "${__ArrayFuncs_sh__:-}" ]; then
   }
   # set_variable VariableName [<Variable Value>]
   function set_variable {
-    check_valid_var_name "${1:?Missing Variable Name}" || return $?
-    eval "${1}"'="${2:-}"'
+		printf -v "${1:?Missing Destination Variable Name}" "%s" "${2:-}" || ErrorOut 1 "$(gettext "Error setting variable")" "${1}"
+    #check_valid_var_name "${1:?Missing Variable Name}" || return $?
+    #eval "${1}"'="${2:-}"' || ErrorOut 1 "$(gettext "Error setting variable")" "${1}"
   }
   # get_array_element VariableName ArrayName ArrayElement
   function get_array_element {
     check_valid_var_name "${1:?Missing Variable Name}" || return $?
     check_valid_var_name "${2:?Missing Array Name}" || return $?
-    eval "${1}"'="${'"${2}"'["${3:?Missing Array Index}"]}"'
+    #echo "${1}=\${${2}[${3:?Missing Array Index}]}"
+    eval "${1}"'="${'"${2}"'["${3:?Missing Array Index}"]}"' || ErrorOut 1 "$(gettext "Error setting variable")" "${1}"
+  }
+ 	function get_array_element_echo {
+    check_valid_var_name "${1:?Missing Array Name}" || return $?
+		eval echo "\"\${${1}[${2:?Missing Array Index}]}\""
   }
   # set_array_element ArrayName ArrayElement [<Variable Value>]
   function set_array_element {
@@ -148,7 +149,7 @@ if [ -z "${__ArrayFuncs_sh__:-}" ]; then
   }
 
 
-  ArrayFuncsRevision=$(CleanRevision '$Revision: 53 $')
+  ArrayFuncsRevision=$(CleanRevision '$Revision: 64 $')
   push_element  ScriptsLoaded "ArrayFuncs.sh;${ArrayFuncsRevision}"
 fi
 if [ -n "${__GenFuncs_sh_Loaded_-}" -a "${SBaseName2}" = "ArrayFuncs.sh" ]; then 

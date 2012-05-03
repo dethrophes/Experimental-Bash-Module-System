@@ -5,12 +5,10 @@ set -o nounset
 [[ "${DEBUG:-0}" != "1" ]] || set -o xtrace
 #<KHeader>
 #+=========================================================================
-#I               EApiDK Embedded Application Development Kit
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/FindFiles.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2009, Kontron Embedded Modules GmbH
-#I      Author: John Kearney,                  John.Kearney@kontron.com
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
+#I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
 #I              materials are licensed and made available under the 
@@ -19,20 +17,17 @@ set -o nounset
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: 
+#I              File Name            : FindFiles.sh
 #I
-#+------------------------------------------------------------------------=
+#+-------------------------------------------------------------------------
 #I
 #I  File Name            : FindFiles.sh
-#I  File Location        : apps\EApiValidateAPI\WINNT
-#I  Last committed       : $Revision: 53 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-02-17 14:29:00 +0100 (Fri, 17 Feb 2012) $
-#I  ID                   : $Id: FindFiles.sh 53 2012-02-17 13:29:00Z dethrophes $
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -135,7 +130,7 @@ if [ -z "${__FindFiles_sh__:-}" ]; then
 	}
 
 	if [ "${SBaseName2}" = "FindFiles.sh" ]; then 
-		ScriptRevision=$(CleanRevision '$Revision: 53 $')
+		ScriptRevision=$(CleanRevision '$Revision: 64 $')
 
 		function InstallDependencies {
 			InstallPackages "${@}"  

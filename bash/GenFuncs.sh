@@ -6,12 +6,10 @@ set -o nounset
 [[ "${DEBUG:-0}" != "1" ]] || set -o xtrace
 #<KHeader>
 #+=========================================================================
-#I  Project Name: Kontron Secure Bios
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/GenFuncs.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2009, Kontron Embedded Modules GmbH
-#I      Author: John Kearney,                  John.Kearney@kontron.com
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
+#I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
 #I              materials are licensed and made available under the 
@@ -20,20 +18,16 @@ set -o nounset
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: Auto Created for SOURCES
 #I
 #+-------------------------------------------------------------------------
 #I
-#I  File Name            : template.sh
-#I  File Location        : bash
-#I  Last committed       : $Revision: 55 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-02-26 11:37:11 +0100 (Sun, 26 Feb 2012) $
-#I  ID                   : $Id: GenFuncs.sh 55 2012-02-26 10:37:11Z dethrophes $
+#I  File Name            : GenFuncs.sh
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -92,9 +86,9 @@ if [ -z "${__GenFuncs_sh__:-}" ]; then
 
 	SetVariable TestWritePath "HOME"			"$(getent passwd $(whoami) | awk 'BEGIN { FS = ":" } ; {print $6}')"
 	SetVariable TestReadPath	"ScriptDir"	"$(CleanDir "$(dirname "${0}")"		  )"													
-	SetVariable TestReadPath	"PythonDir"	"$(CleanDir "${ScriptDir[0]}/../python")" "$(CleanDir "${ScriptDir[1]}/../perl"  )" 										
-	SetVariable TestReadPath	"PerlDir"		"$(CleanDir "${ScriptDir[0]}/../perl"  )" "$(CleanDir "${ScriptDir[1]}/../perl"  )"											
-	SetVariable TestWritePath "LogDir"		"$(CleanDir "${ScriptDir[0]}/../Logs"  )" "$(CleanDir "${HOME}/scripts/Logs"  )" 								
+	SetVariable TestReadPath	"PythonDir"	"$(CleanDir "${ScriptDir[0]:-}/../python")"	"$(CleanDir "${ScriptDir[1]:-}/../python")"		
+	SetVariable TestReadPath	"PerlDir"		"$(CleanDir "${ScriptDir[0]:-}/../perl"  )"	"$(CleanDir "${ScriptDir[1]:-}/../python")"		
+	SetVariable TestWritePath "LogDir"		"$(CleanDir "${ScriptDir[0]:-}/../Logs"  )"  "$(CleanDir "${HOME}/scripts/Logs"  )" 								
 	[ -z "${TERM:-}" ]					&& export TERM=xterm																										
 	[ -z "${BATCHMODE:-}" ]			&& export BATCHMODE=0																									
 
@@ -130,6 +124,12 @@ if [ -z "${__GenFuncs_sh__:-}" ]; then
 	function CleanRevision {
 		ReturnString "${1}" | awk '{print $2}'
 	}
+ 	function CleanRevision_new {
+		local -a RVer=(${2})
+		set_variable "${1}" "${RVer[1]}"
+		readonly "${1}"
+		#printf -v "${1}" "%s" "${RVer[1]}"
+	}
  	function Error_Exit {
 		# Function Gets overriden later in LogFuncs.sh
 		local CLine
@@ -151,19 +151,18 @@ if [ -z "${__GenFuncs_sh__:-}" ]; then
 						#time source "${CSourceFile}"
 						#printf "$(gettext "Sourcing %-50s ")\n" "${CSourceFile}"  
 						if [ "${SIFS}" != "${IFS}"	]; then
-							Error_Exit ${CDepth:-1} 7 "$(gettext "Sourced file modified IFS")" "${CSourceFile}"
+							Error_Exit 1 7 "$(gettext "Sourced file modified IFS")" "${CSourceFile}"
 						fi
 					else
-						Error_Exit ${CDepth:-1} 7 "$(gettext "Source file not readable")" "${CSourceFile}"
+						Error_Exit 1 7 "$(gettext "Source file not readable")" "${CSourceFile}"
 					fi
 				else
-					Error_Exit ${CDepth:-1} 7 "$(gettext "Can't find Source file")" "${CSourceFile}"
+					Error_Exit 1 7 "$(gettext "Can't find Source file")" "${CSourceFile}"
 				fi
 			fi
 		done
 	}
  	function SourceCoreFiles_ {
-		local CDepth=2
 		local CSPath
 		local Found=0
 		while [ $# -gt 0 ]; do
@@ -222,6 +221,18 @@ if [ -z "${__GenFuncs_sh__:-}" ]; then
 	function SplitCsvToArray {
 		IFS="${CsvIFS}" eval ${1}=\(\${2}\)
 	}
+	Spacer=$'\v'
+	function EncodeArgs {
+		IFS=${Spacer} eval 'echo "${*}"'
+	}
+	function DecodedArgs {
+		#printf "%q\n" "${2}"  
+		IFS="${Spacer}" eval "${1}"'=( .${2}. )'
+		#IFS="${Spacer}" read -ra "${1}" <<< ".${2}."
+		#eval echo '"${'"${1}"'[@]}"'
+		eval ${1}'[0]="${'${1}'[0]:1}"'
+		eval ${1}'[${#'${1}'[@]}-1]="${'${1}'[${#'${1}'[@]}-1]]%.}"'
+	}
 
 	function ReturnStringPart {
 		echo -n "${@}"
@@ -249,7 +260,8 @@ if [ -z "${__GenFuncs_sh__:-}" ]; then
 	# PROCEDURES
 	#########################################################################
 	function PrintArray {
-		IFS=$'\n' eval echo '"${*}"'
+		#IFS=$'\n' eval echo '"${*}"'
+		printf "%s\n" "${*}"
 	}
 
 	function float_eval {
@@ -528,13 +540,14 @@ if [ -z "${__GenFuncs_sh__:-}" ]; then
 
 
 
-	declare -gr __GenFuncs_sh_Loaded_=1
+	readonly __GenFuncs_sh_Loaded_=1
 
-	declare -gr GenFuncsRevision=$(CleanRevision '$Revision: 55 $')
-	declare -gr GenFuncsDescription="$(gettext "Please Enter a program description here") "
+	#readonly GenFuncsRevision=$(CleanRevision '$Revision: 64 $')
+	CleanRevision_new GenFuncsRevision '$Revision: 64 $'
+	readonly GenFuncsDescription="$(gettext "Please Enter a program description here") "
 	push_element	ScriptsLoaded "GenFuncs.sh;${GenFuncsRevision};${GenFuncsDescription}"
 	if [ "${SBaseName2}" = "GenFuncs.sh" ]; then 
-		declare -gr ScriptRevision="${GenFuncsRevision}"
+		readonly ScriptRevision="${GenFuncsRevision}"
 
 
 		#########################################################################

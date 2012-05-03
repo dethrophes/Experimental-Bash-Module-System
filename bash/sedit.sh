@@ -2,12 +2,10 @@
 #if [ "$DEBUG" != "1" ]; then stty -echo; fi
 #<KHeader>
 #+=========================================================================
-#I  Project Name: Kontron Secure Bios
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/sedit.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2009, Kontron Embedded Modules GmbH
-#I      Author: John Kearney,                  John.Kearney@kontron.com
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
+#I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
 #I              materials are licensed and made available under the 
@@ -16,20 +14,16 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: Auto Created for SOURCES
 #I
 #+-------------------------------------------------------------------------
 #I
-#I  File Name            : template.sh
-#I  File Location        : bash
-#I  Last committed       : $Revision: 51 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-01-17 13:33:18 +0100 (Tue, 17 Jan 2012) $
-#I  ID                   : $Id: sedit.sh 51 2012-01-17 12:33:18Z dethrophes $
+#I  File Name            : sedit.sh
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -48,7 +42,7 @@ if [ -z "${__sedit_SH__:-}" ]; then
 	# PROCEDURES
 	#########################################################################
 
-	seditRevision=$(CleanRevision '$Revision: 51 $')
+	seditRevision=$(CleanRevision '$Revision: 64 $')
 	push_element	ScriptsLoaded "sedit.sh;${seditRevision}"
 	if [ "${SBaseName2}" = "sedit.sh" ]; then 
 		ScriptRevision="${seditRevision}"

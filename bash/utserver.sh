@@ -5,12 +5,10 @@
 [[ "${DEBUG:-0}" != "1" ]] || set -o xtrace
 #<KHeader>
 #+=========================================================================
-#I               EApiDK Embedded Application Development Kit
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/utserver.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2009, Kontron Embedded Modules GmbH
-#I      Author: John Kearney,                  John.Kearney@kontron.com
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
+#I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
 #I              materials are licensed and made available under the 
@@ -19,20 +17,16 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
-#I Description:  -- utserver wrapper
+#I Description: -- utserver wrapper
 #I
-#+------------------------------------------------------------------------=
+#+-------------------------------------------------------------------------
 #I
 #I  File Name            : utserver.sh
-#I  File Location        : apps\EApiValidateAPI\WINNT
-#I  Last committed       : $Revision: 53 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-02-17 14:29:00 +0100 (Fri, 17 Feb 2012) $
-#I  ID                   : $Id: utserver.sh 53 2012-02-17 13:29:00Z dethrophes $
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -55,7 +49,7 @@ fi
 #SourceFiles_ "${ScriptDir}/DiskFuncs.sh"
 
 if [ -z "${__utserver_sh__:-}" ]; then
-	declare -gr __utserver_sh__=1
+	readonly __utserver_sh__=1
 
 
 
@@ -135,11 +129,11 @@ if [ -z "${__utserver_sh__:-}" ]; then
 	#push_element RequiredFreeBsdPackages	<Package Name> ...
 	#push_element RequiredSusePackages		<Package Name> ...
 
-	declare -gr utserverRevision=$(CleanRevision '$Revision: 53 $')
-	declare -gr utserverDescription="$(gettext "Please Enter a program description here") "
+	readonly utserverRevision=$(CleanRevision '$Revision: 64 $')
+	readonly utserverDescription="$(gettext "Please Enter a program description here") "
 	push_element	ScriptsLoaded "GenFuncs.sh;${utserverRevision};${utserverDescription}"
 	if [ "${SBaseName2}" = "utserver.sh" ]; then 
-		declare -gr ScriptRevision="${utserverRevision}"
+		readonly ScriptRevision="${utserverRevision}"
 
 		#########################################################################
 		# Usage
@@ -161,8 +155,8 @@ if [ -z "${__utserver_sh__:-}" ]; then
 		}
 
 		SetLogFileName "&1"
-		declare -g BeDaemon=0
-		declare -gr utserver="/opt/utorrent/server/bin/utserver"
+		BeDaemon=0
+		readonly utserver="/opt/utorrent/server/bin/utserver"
 
 		sLogOut "${0}" "$@"
 
@@ -175,7 +169,7 @@ if [ -z "${__utserver_sh__:-}" ]; then
 		#########################################################################
 		# MAIN PROGRAM
 		#########################################################################
-		declare -g SPID
+		SPID
 		function KillutserverFunction {
 			[ -n "${SPID:-}" ] && KillProcess 0 ${SPID}
 		}

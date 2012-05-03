@@ -5,12 +5,10 @@
 [[ "${DEBUG:-0}" != "1" ]] || set -o xtrace
 #<KHeader>
 #+=========================================================================
-#I  Project Name: Kontron Secure Bios
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/ConsoleFuncs.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2009, Kontron Embedded Modules GmbH
-#I      Author: John Kearney,                  John.Kearney@kontron.com
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
+#I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
 #I              materials are licensed and made available under the 
@@ -19,20 +17,16 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: Auto Created for SOURCES
 #I
 #+-------------------------------------------------------------------------
 #I
-#I  File Name            : template.sh
-#I  File Location        : bash
-#I  Last committed       : $Revision: 53 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-02-17 14:29:00 +0100 (Fri, 17 Feb 2012) $
-#I  ID                   : $Id: ConsoleFuncs.sh 53 2012-02-17 13:29:00Z dethrophes $
+#I  File Name            : ConsoleFuncs.sh
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -55,10 +49,10 @@ if [ -z "${__ConsoleFuncs_sh__:-}" ]; then
 	__ConsoleFuncs_sh__=1
 
 	
-	declare -gr NewLine=$'\n'
-	declare -gr Tab=$'\t'
-	declare -gr Space=" "
-	declare -gr ESC=$'\e'				# 
+	readonly NewLine=$'\n'
+	readonly Tab=$'\t'
+	readonly Space=" "
+	readonly ESC=$'\e'				# 
 
 	# C1 (8-Bit) Control Characters
 	# The xterm program recognizes both 8-bit and 7-bit control characters. It generates 7-bit controls (by default) or 8-bit
@@ -66,40 +60,40 @@ if [ -z "${__ConsoleFuncs_sh__:-}" ]; then
 	S8C1T=${S8C1T:-0}
 	if [ "${S8C1T:-0}" != "1" ] ; then
 		# 7 bit version 
-		declare -gr IND=$'\eD'			# Index ( IND is 0x84)
-		declare -gr NEL=$'\eE'			# Next Line ( NEL is 0x85)
-		declare -gr HTS=$'\eH'			# Tab Set ( HTS is 0x88)
-		declare -gr RI=$'\eM'				# Reverse Index ( RI is 0x8d)
-		declare -gr SS2=$'\eN'			# Single Shift Select of G2 Character Set ( SS2 is 0x8e): affects next character only
-		declare -gr SS3=$'\eO'			# Single Shift Select of G3 Character Set ( SS3 is 0x8f): affects next character only
-		declare -gr DCS=$'\eP'			# Device Control String ( DCS is 0x90)
-		declare -gr SPA=$'\eV'			# Start of Guarded Area ( SPA is 0x96)
-		declare -gr EPA=$'\eW'			# End of Guarded Area ( EPA is 0x97)
-		declare -gr SOS=$'\eX'			# Start of String ( SOS is 0x98)
-		declare -gr DECID=$'\eZ'		# Return Terminal ID (DECID is 0x9a). Obsolete form of CSI c (DA).
-		declare -gr CSI=$'\e['			# Control Sequence Introducer ( CSI is 0x9b)
-		declare -gr ST=$'\e\\'			# String Terminator ( ST is 0x9c)
-		declare -gr OSC=$'\e]'			# Operating System Command ( OSC is 0x9d)
-		declare -gr PM=$'\e^'				# Privacy Message ( PM is 0x9e) take a single string of text, terminated by ST 
-		declare -gr APC=$'\e_'			# Application Program Command ( APC is 0x9f)  take a single string of text, terminated by ST 
+		readonly IND=$'\eD'			# Index ( IND is 0x84)
+		readonly NEL=$'\eE'			# Next Line ( NEL is 0x85)
+		readonly HTS=$'\eH'			# Tab Set ( HTS is 0x88)
+		readonly RI=$'\eM'				# Reverse Index ( RI is 0x8d)
+		readonly SS2=$'\eN'			# Single Shift Select of G2 Character Set ( SS2 is 0x8e): affects next character only
+		readonly SS3=$'\eO'			# Single Shift Select of G3 Character Set ( SS3 is 0x8f): affects next character only
+		readonly DCS=$'\eP'			# Device Control String ( DCS is 0x90)
+		readonly SPA=$'\eV'			# Start of Guarded Area ( SPA is 0x96)
+		readonly EPA=$'\eW'			# End of Guarded Area ( EPA is 0x97)
+		readonly SOS=$'\eX'			# Start of String ( SOS is 0x98)
+		readonly DECID=$'\eZ'		# Return Terminal ID (DECID is 0x9a). Obsolete form of CSI c (DA).
+		readonly CSI=$'\e['			# Control Sequence Introducer ( CSI is 0x9b)
+		readonly ST=$'\e\\'			# String Terminator ( ST is 0x9c)
+		readonly OSC=$'\e]'			# Operating System Command ( OSC is 0x9d)
+		readonly PM=$'\e^'				# Privacy Message ( PM is 0x9e) take a single string of text, terminated by ST 
+		readonly APC=$'\e_'			# Application Program Command ( APC is 0x9f)  take a single string of text, terminated by ST 
 	else
 		# 8 bit version 
-		declare -gr IND=$'\x84'			# Index ( IND is 0x84)
-		declare -gr NEL=$'\x85'			# Next Line ( NEL is 0x85)
-		declare -gr HTS=$'\x88'			# Tab Set ( HTS is 0x88)
-		declare -gr RI=$'\x8d'			# Reverse Index ( RI is 0x8d)
-		declare -gr SS2=$'\x8e'			# Single Shift Select of G2 Character Set ( SS2 is 0x8e): affects next character only
-		declare -gr SS3=$'\x8f'			# Single Shift Select of G3 Character Set ( SS3 is 0x8f): affects next character only
-		declare -gr DCS=$'\x90'			# Device Control String ( DCS is 0x90)
-		declare -gr SPA=$'\x96'			# Start of Guarded Area ( SPA is 0x96)
-		declare -gr EPA=$'\x97'			# End of Guarded Area ( EPA is 0x97)
-		declare -gr SOS=$'\x98'			# Start of String ( SOS is 0x98)
-		declare -gr DECID=$'\x9a'		# Return Terminal ID (DECID is 0x9a). Obsolete form of CSI c (DA).
-		declare -gr CSI=$'\x9b'			# Control Sequence Introducer ( CSI is 0x9b)
-		declare -gr ST=$'\x9c'			# String Terminator ( ST is 0x9c)
-		declare -gr OSC=$'\x9d'			# Operating System Command ( OSC is 0x9d)
-		declare -gr PM=$'\x9e'			# Privacy Message ( PM is 0x9e) take a single string of text, terminated by ST 
-		declare -gr APC=$'\x9f'			# Application Program Command ( APC is 0x9f)  take a single string of text, terminated by ST 
+		readonly IND=$'\x84'			# Index ( IND is 0x84)
+		readonly NEL=$'\x85'			# Next Line ( NEL is 0x85)
+		readonly HTS=$'\x88'			# Tab Set ( HTS is 0x88)
+		readonly RI=$'\x8d'			# Reverse Index ( RI is 0x8d)
+		readonly SS2=$'\x8e'			# Single Shift Select of G2 Character Set ( SS2 is 0x8e): affects next character only
+		readonly SS3=$'\x8f'			# Single Shift Select of G3 Character Set ( SS3 is 0x8f): affects next character only
+		readonly DCS=$'\x90'			# Device Control String ( DCS is 0x90)
+		readonly SPA=$'\x96'			# Start of Guarded Area ( SPA is 0x96)
+		readonly EPA=$'\x97'			# End of Guarded Area ( EPA is 0x97)
+		readonly SOS=$'\x98'			# Start of String ( SOS is 0x98)
+		readonly DECID=$'\x9a'		# Return Terminal ID (DECID is 0x9a). Obsolete form of CSI c (DA).
+		readonly CSI=$'\x9b'			# Control Sequence Introducer ( CSI is 0x9b)
+		readonly ST=$'\x9c'			# String Terminator ( ST is 0x9c)
+		readonly OSC=$'\x9d'			# Operating System Command ( OSC is 0x9d)
+		readonly PM=$'\x9e'			# Privacy Message ( PM is 0x9e) take a single string of text, terminated by ST 
+		readonly APC=$'\x9f'			# Application Program Command ( APC is 0x9f)  take a single string of text, terminated by ST 
 	fi
 
 	SourceCoreFiles_ vt100Funcs.sh
@@ -262,7 +256,7 @@ EOF
 		echo -e "${@}" >&2
 	}
   
-	ConsoleFuncsRevision=$(CleanRevision '$Revision: 53 $')
+	ConsoleFuncsRevision=$(CleanRevision '$Revision: 64 $')
 	ConsoleFuncsDescription="$(gettext "Please Enter a program description here") "
 	push_element	ScriptsLoaded "ConsoleFuncs.sh;${ConsoleFuncsRevision};${ConsoleFuncsDescription}"
 fi

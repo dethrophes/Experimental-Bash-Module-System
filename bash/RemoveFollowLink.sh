@@ -1,12 +1,10 @@
 #!/bin/bash +x
 #<KHeader>
 #+=========================================================================
-#I               EApiDK Embedded Application Development Kit
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/RemoveFollowLink.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2009, Kontron Embedded Modules GmbH
-#I      Author: John Kearney,                  John.Kearney@kontron.com
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
+#I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
 #I              materials are licensed and made available under the 
@@ -15,20 +13,17 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: 
+#I              File Name            : RemoveFollowLink.sh
 #I
-#+------------------------------------------------------------------------=
+#+-------------------------------------------------------------------------
 #I
 #I  File Name            : RemoveFollowLink.sh
-#I  File Location        : apps\EApiValidateAPI\WINNT
-#I  Last committed       : $Revision: 38 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-01-05 04:16:37 +0100 (Thu, 05 Jan 2012) $
-#I  ID                   : $Id: RemoveFollowLink.sh 38 2012-01-05 03:16:37Z dethrophes $
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -79,7 +74,7 @@ if [ -z "${__RemoveFollowLink_sh__}" ]; then
 	#push_element RequiredRpmPackages moreutils
 	#push_element RequiredGentooPackages moreutils
 
-	RemoveFollowLinkRevision=$(CleanRevision '$Revision: 38 $')
+	RemoveFollowLinkRevision=$(CleanRevision '$Revision: 64 $')
 	if [ "${SBaseName2}" = "RemoveFollowLink.sh" ]; then 
 		ScriptRevision="${RemoveFollowLinkRevision}"
 

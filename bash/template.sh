@@ -5,11 +5,9 @@
 [[ "${DEBUG:-0}" != "1" ]] || set -o xtrace
 #<KHeader>
 #+=========================================================================
-#I               JK Script Tools
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/template.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2012, dethrophes@web.de
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
 #I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
@@ -19,8 +17,8 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: Auto Created for SOURCES
@@ -28,11 +26,7 @@
 #+-------------------------------------------------------------------------
 #I
 #I  File Name            : template.sh
-#I  File Location        : scripts/bash
-#I  Last committed       : $Revision: 54 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-02-26 11:36:27 +0100 (Sun, 26 Feb 2012) $
-#I  ID                   : $Id: template.sh 54 2012-02-26 10:36:27Z dethrophes $
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -111,12 +105,12 @@ if [ -z "${__<+FILE NAME ROOT+>_<+FILE SUFFIX+>__:-}" ]; then
 	#push_element RequiredFreeBsdPackages	<Package Name> ...
 	#push_element RequiredSusePackages		<Package Name> ...
 
-	declare -gr templateRevision=$(CleanRevision '$Revision: 54 $')
-	declare -gr templateDescription="$(gettext "Please Enter a program description here") "
-	push_element	ScriptsLoaded "template.sh;${templateRevision};${templateDescription}"
+	readonly <+FILE NAME ROOT+>Revision=$(CleanRevision '$Revision: 64 $')
+	readonly <+FILE NAME ROOT+>Description='<+NOTE+>'
+	push_element	ScriptsLoaded "<+FILE NAME+>;${<+FILE NAME ROOT+>Revision};${<+FILE NAME ROOT+>Description}"
 fi
-if [ -n "${__GenFuncs_sh_Loaded_-}" -a "${SBaseName2}" = "template.sh" ]; then 
-	ScriptRevision="${templateRevision}"
+if [ -n "${__GenFuncs_sh_Loaded_-}" -a "${SBaseName2}" = "<+FILE NAME+>" ]; then 
+	ScriptRevision="${<+FILE NAME ROOT+>Revision}"
 
 	#########################################################################
 	# Procedures
@@ -148,10 +142,10 @@ if [ -n "${__GenFuncs_sh_Loaded_-}" -a "${SBaseName2}" = "template.sh" ]; then
 	#########################################################################
 	# Argument Processing
 	#########################################################################
-	#push_element ModulesArgHandlers SupportCallingFileFuncs Set_template_Flags Set_template_exec_Flags
-	push_element ModulesArgHandlers SupportCallingFileFuncs Set_template_exec_Flags
+	#push_element ModulesArgHandlers SupportCallingFileFuncs "Set_<+FILE NAME ROOT+>_Flags" "Set_<+FILE NAME ROOT+>_exec_Flags"
+	push_element ModulesArgHandlers SupportCallingFileFuncs "Set_<+FILE NAME ROOT+>_exec_Flags"
 	#push_element SupportedCLIOptions 
-	function Set_template_exec_Flags {
+	function Set_<+FILE NAME ROOT+>_exec_Flags {
 		local -i PCnt=0
 		while [ $# -gt 0 ] ; do
 			case "${1}" in

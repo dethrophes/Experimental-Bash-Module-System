@@ -5,12 +5,10 @@
 [[ "${DEBUG:-0}" != "1" ]] || set -o xtrace
 #<KHeader>
 #+=========================================================================
-#I               EApiDK Embedded Application Development Kit
+#I  Project Name: Scripts
 #+=========================================================================
-#I  $HeadURL: svn+ssh://dethdeg.dvrdns.org/svn/KScripts2/trunk/bash/SigFuncs.sh $
-#+=========================================================================
-#I   Copyright: Copyright (c) 2002-2009, Kontron Embedded Modules GmbH
-#I      Author: John Kearney,                  John.Kearney@kontron.com
+#I   Copyright: Copyright (c) 2004-2012, John Kearney
+#I      Author: John Kearney,                  dethrophes@web.de
 #I
 #I     License: All rights reserved. This program and the accompanying 
 #I              materials are licensed and made available under the 
@@ -19,20 +17,17 @@
 #I              license may be found at 
 #I              http://opensource.org/licenses/bsd-license.php
 #I              
-#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "
-#I              AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
+#I              THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN '
+#I              AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF 
 #I              ANY KIND, EITHER EXPRESS OR IMPLIED.
 #I
 #I Description: 
+#I              File Name            : SigFuncs.sh
 #I
-#+------------------------------------------------------------------------=
+#+-------------------------------------------------------------------------
 #I
 #I  File Name            : SigFuncs.sh
-#I  File Location        : apps\EApiValidateAPI\WINNT
-#I  Last committed       : $Revision: 53 $
-#I  Last changed by      : $Author: dethrophes $
-#I  Last changed date    : $Date: 2012-02-17 14:29:00 +0100 (Fri, 17 Feb 2012) $
-#I  ID                   : $Id: SigFuncs.sh 53 2012-02-17 13:29:00Z dethrophes $
+#I  File Location        : Experimental-Bash-Module-System/bash
 #I
 #+=========================================================================
 #</KHeader>
@@ -73,11 +68,11 @@ if [ -z "${__SigFuncs_sh__:-}" ]; then
 	)
 
 	SignatureFiles="$(PrintArray "${SupportedSigCmds[@]}" | cut -d ";" -f 4 | tr "\n" "|")"
-	declare -gr SignatureFiles="(${SignatureFiles%|})"
-	declare -gr IgnoreFolders='(\.Trash-1000|\.svn|\.cvs|\.git|CVS|lost\+found|\.doc)'
-	declare -gr IgnoreFiles1='(.+\.!ut|file\.lst|Thumbs\.db|.+\.torrent)'
-	declare -gr IgnoreFiles=".*/(${SignatureFiles}|${IgnoreFiles1}|${IgnoreFolders}/.*)"
-	declare -gr IgnoreFiles2="${SignatureFiles}|${IgnoreFiles1}|${IgnoreFolders}"
+	readonly SignatureFiles="(${SignatureFiles%|})"
+	readonly IgnoreFolders='(\.Trash-1000|\.svn|\.cvs|\.git|CVS|lost\+found|\.doc)'
+	readonly IgnoreFiles1='(.+\.!ut|file\.lst|Thumbs\.db|.+\.torrent)'
+	readonly IgnoreFiles=".*/(${SignatureFiles}|${IgnoreFiles1}|${IgnoreFolders}/.*)"
+	readonly IgnoreFiles2="${SignatureFiles}|${IgnoreFiles1}|${IgnoreFolders}"
 	#echo "IgnoreFiles=\"${IgnoreFiles}\""
 
   function SetSigType {
@@ -279,7 +274,7 @@ if [ -z "${__SigFuncs_sh__:-}" ]; then
 
 
 
-	declare -gr TSigFile="§(mktemp)"
+	readonly TSigFile="§(mktemp)"
 	RegisterTempFile "${TSigFile}"
 	function CheckSig_sub {
 		local CFile
@@ -336,12 +331,12 @@ if [ -z "${__SigFuncs_sh__:-}" ]; then
 	#push_element RequiredRpmPackages moreutils
 	#push_element RequiredGentooPackages moreutils
 
-	declare -gr SigFuncsRevision=$(CleanRevision '$Revision: 53 $')
-	declare -gr SigFuncsDescription="$(gettext "Please Enter a program description here") "
+	readonly SigFuncsRevision=$(CleanRevision '$Revision: 64 $')
+	readonly SigFuncsDescription="$(gettext "Please Enter a program description here") "
 	push_element	ScriptsLoaded "SigFuncs.sh;${SigFuncsRevision};${SigFuncsDescription}"
 fi
 if [ -n "${__GenFuncs_sh_Loaded_-}" -a "${SBaseName2}" = "SigFuncs.sh" ]; then 
-	declare -gr ScriptRevision="${SigFuncsRevision}"
+	readonly ScriptRevision="${SigFuncsRevision}"
 
 	#########################################################################
 	# Usage
